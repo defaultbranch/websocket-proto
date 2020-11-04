@@ -1,12 +1,14 @@
-# CMakeLists files in this project can
-# refer to the root source directory of the project as ${HELLO_SOURCE_DIR} and
-# to the root binary directory of the project as ${HELLO_BINARY_DIR}.
 cmake_minimum_required (VERSION 3.10.2)
 project (HELLO)
 
-# Recurse into the "Hello" and "Demo" subdirectories. This does not actually
-# cause another cmake executable to run. The same process will walk through
-# the project's entire directory structure.
+set( LWS_WITH_SSL OFF CACHE INTERNAL "" )
+
+add_subdirectory(libwebsockets)
+
 add_executable (helloDemo
   main.c
 )
+
+target_include_directories (helloDemo PUBLIC libwebsockets/lib)
+target_include_directories (helloDemo PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/libwebsockets)
+target_link_libraries (helloDemo LINK_PUBLIC websockets)
