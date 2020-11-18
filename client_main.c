@@ -20,6 +20,7 @@ int main(int argc, char **argv) {
     struct lws_context_creation_info info;
     memset(&info, 0, sizeof info);
     info.port = CONTEXT_PORT_NO_LISTEN;  // client does not listen
+    info.foreign_loops = NULL;  // can point to sd_loop later
 
     // create context
     struct lws_context *context;
