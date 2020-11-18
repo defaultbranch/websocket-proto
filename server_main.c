@@ -24,12 +24,18 @@ static int callback_minimal(struct lws *wsi, enum lws_callback_reasons reason, v
     switch(reason) {
 
         case LWS_CALLBACK_PROTOCOL_INIT:
-            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_PROTOCOL_INIT) not implemented\n", __FILE__, __LINE__);
+            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_PROTOCOL_INIT) not implemented for %p\n", __FILE__, __LINE__, wsi);
+            break;
+
+        case LWS_CALLBACK_EVENT_WAIT_CANCELLED:
+            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_EVENT_WAIT_CANCELLED) not implemented for %p\n", __FILE__, __LINE__, wsi);
             break;
 
         default:
             printf("%s(%d) callback_minimal(reason: %d) not implemented\n", __FILE__, __LINE__, reason);
     }
+
+    return 0;
 }
 
 int main(int argc, char **argv) {
