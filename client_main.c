@@ -5,7 +5,16 @@
 #include <libwebsockets.h>
 
 
+static void log_emit_function(int level, const char *line) {
+    printf("%s\n", line);
+}
+
+
 int main(int argc, char **argv) {
-    printf("Client started\n");
+
+    // configure logging
+    lws_set_log_level(LLL_USER | LLL_ERR | LLL_WARN | LLL_NOTICE, log_emit_function);
+    lwsl_user("client started");
+
     return 0;
 }
