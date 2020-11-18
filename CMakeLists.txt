@@ -21,7 +21,7 @@ add_executable(server
         server_main.c
         )
 
-target_include_directories(server PUBLIC libwebsockets/lib)
+target_include_directories(server PUBLIC libwebsockets/include)
 target_include_directories(server PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/libwebsockets)
 target_link_libraries(server LINK_PUBLIC websockets)
 
@@ -35,3 +35,7 @@ target_link_libraries(server LINK_PUBLIC websockets)
 add_executable(client
         client_main.c
         )
+
+target_include_directories(client PUBLIC libwebsockets/include)
+target_include_directories(client PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/libwebsockets)
+target_link_libraries(client LINK_PUBLIC websockets)
