@@ -16,5 +16,18 @@ int main(int argc, char **argv) {
     lws_set_log_level(LLL_USER | LLL_ERR | LLL_WARN | LLL_NOTICE, log_emit_function);
     lwsl_user("server started");
 
+    // specify context
+    struct lws_context_creation_info info;
+    memset(&info, 0, sizeof info);
+    info.port = 8080;  // server listens to http port
+
+    // create context
+    struct lws_context *context;
+
+    context = lws_create_context(&info);
+    if (!context) {
+        lwsl_err("lws init failed\n");
+        return 1;
+    }
 	return 0;
 }

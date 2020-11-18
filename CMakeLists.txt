@@ -12,7 +12,7 @@ add_subdirectory(libwebsockets)
 
 #
 # server app
-#   will bind to port 80
+#   will bind to port 8080 (user space http)
 #   will wail for client connections
 #   will send messages to clients
 #
@@ -28,7 +28,7 @@ target_link_libraries(server LINK_PUBLIC websockets)
 
 #
 # client app
-#   will connect to port 80
+#   will connect to port 8080 (user space http)
 #   will wait for & display server messages
 #
 
