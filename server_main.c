@@ -21,7 +21,7 @@ static int callback_minimal(struct lws *wsi, enum lws_callback_reasons reason, v
 
     struct per_session_data *session_data = (struct per_session_data*) user;
 
-    switch(reason) {
+    switch (reason) {
 
         case LWS_CALLBACK_PROTOCOL_INIT:
             printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_PROTOCOL_INIT) not implemented for %p\n", __FILE__, __LINE__, wsi);
@@ -31,6 +31,28 @@ static int callback_minimal(struct lws *wsi, enum lws_callback_reasons reason, v
             printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_EVENT_WAIT_CANCELLED) not implemented for %p\n", __FILE__, __LINE__, wsi);
             break;
 
+        case LWS_CALLBACK_HTTP_BIND_PROTOCOL:
+            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_HTTP_BIND_PROTOCOL) not implemented for %p\n", __FILE__, __LINE__, wsi);
+            break;
+
+        case LWS_CALLBACK_FILTER_PROTOCOL_CONNECTION:
+            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_FILTER_PROTOCOL_CONNECTION) not implemented for %p\n", __FILE__, __LINE__, wsi);
+            break;
+
+        case LWS_CALLBACK_ADD_HEADERS:
+            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_ADD_HEADERS) not implemented for %p\n", __FILE__, __LINE__, wsi);
+            break;
+
+        case LWS_CALLBACK_SERVER_WRITEABLE:
+            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_SERVER_WRITEABLE) not implemented for %p\n", __FILE__, __LINE__, wsi);
+            break;
+
+        case LWS_CALLBACK_WS_SERVER_DROP_PROTOCOL:
+            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_WS_SERVER_DROP_PROTOCOL) not implemented for %p\n", __FILE__, __LINE__, wsi);
+            break;
+
+        case 0:
+        case 4:
         default:
             printf("%s(%d) callback_minimal(reason: %d) not implemented\n", __FILE__, __LINE__, reason);
     }
