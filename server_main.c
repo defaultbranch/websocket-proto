@@ -20,7 +20,16 @@ struct per_session_data {
 static int callback_minimal(struct lws *wsi, enum lws_callback_reasons reason, void *user, void *in, size_t len) {
 
     struct per_session_data *session_data = (struct per_session_data*) user;
-    printf("%s(%d) callback_minimal(reason: %d) not implemented\n", __FILE__, __LINE__, reason);
+
+    switch(reason) {
+
+        case LWS_CALLBACK_PROTOCOL_INIT:
+            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_PROTOCOL_INIT) not implemented\n", __FILE__, __LINE__);
+            break;
+
+        default:
+            printf("%s(%d) callback_minimal(reason: %d) not implemented\n", __FILE__, __LINE__, reason);
+    }
 }
 
 int main(int argc, char **argv) {
