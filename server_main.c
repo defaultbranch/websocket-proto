@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <signal.h>
 
+#include <systemd/sd-event.h>
 #include <libwebsockets.h>
 
 
@@ -263,8 +264,36 @@ void sigint_handler(int sig)
 	interrupted = 1;
 }
 
+static int handler(sd_event_source *s, uint64_t usec, void *userdata) {
+    printf("%s(%d) handler called at %lu\n", __FILE__, __LINE__, (unsigned long) usec);
+}
+
 int main(int argc, char **argv) {
-  printf("Hallo Welt\n");
+    printf("Hallo Welt\n");
+
+    struct sd_event *mySdEvent;
+    int sd_err;
+
+    sd_err = sd_event_new(&mySdEvent);
+    printf("%s(%d) sd_event_new returned %d\n", __FILE__, __LINE__, sd_err);
+
+    uint64_t monoNow;
+    sd_err = sd_event_now(mySdEvent, CLOCK_MONOTONIC, &monoNow);
+    printf("%s(%d) sd_event_now returned %d\n", __FILE__, __LINE__, sd_err);
+
+    struct sd_event_source*mySource;
+    sd_err = sd_event_add_time(mySdEvent, &mySource, CLOCK_MONOTONIC, monoNow + 1000000, 0, handler, NULL);
+    printf("%s(%d) sd_event_add_time returned %d\n", __FILE__, __LINE__, sd_err);
+
+    sd_event_run(mySdEvent, 2000000);
+    sd_event_run(mySdEvent, 2000000);
+
+
+
+
+
+    sd_event_unrefp(&mySdEvent);
+
 
 	struct lws_context_creation_info info;
 	struct lws_context *context;
