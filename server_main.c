@@ -49,16 +49,21 @@ static int callback_minimal(struct lws *wsi, enum lws_callback_reasons reason, v
             printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_SERVER_WRITEABLE) not implemented for %p\n", __FILE__, __LINE__, wsi);
 
             char *msg = "Blubber di Blub\n";
-            size_t len = strlen(msg) + 1;
+            size_t msgLen = strlen(msg) + 1;
 
             // free previous send buffer
             free(sendBuffer);
 
             // create and fill new send buffer
-            sendBuffer = malloc(LWS_PRE + len);
+            sendBuffer = malloc(LWS_PRE + msgLen);
             strcpy(sendBuffer+LWS_PRE, msg);
 
-            lws_write(wsi, ((unsigned char*)sendBuffer)+LWS_PRE, len, LWS_WRITE_TEXT);
+            lws_write(wsi, ((unsigned char*)sendBuffer)+LWS_PRE, msgLen, LWS_WRITE_TEXT);
+            break;
+
+        case LWS_CALLBACK_RECEIVE:
+            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_RECEIVE) for %p with length %d\n", __FILE__, __LINE__, wsi, len);
+            lwsl_hexdump_notice(in, len);
             break;
 
         case LWS_CALLBACK_WS_SERVER_DROP_PROTOCOL:
