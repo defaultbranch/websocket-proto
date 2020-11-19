@@ -49,6 +49,15 @@ static int callback_minimal(struct lws *wsi, enum lws_callback_reasons reason, v
 
         case LWS_CALLBACK_WS_SERVER_DROP_PROTOCOL:
             printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_WS_SERVER_DROP_PROTOCOL) not implemented for %p\n", __FILE__, __LINE__, wsi);
+
+            char *msg = "Hello Client\n";
+            size_t len = strlen(msg) + 1;
+
+            // TODO memory management
+            char *buf = malloc(LWS_PRE + len);
+            strcpy(buf+LWS_PRE, msg);
+
+            lws_write(wsi, buf, len, LWS_WRITE_TEXT);
             break;
 
         case 0:
