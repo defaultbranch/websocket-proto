@@ -64,8 +64,8 @@ static int callback_minimal(struct lws *wsi, enum lws_callback_reasons reason, v
             break;
 
         case LWS_CALLBACK_RECEIVE:
-            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_RECEIVE) for %p with length %d\n", __FILE__, __LINE__, wsi, len);
-            printf("%s\n", in);
+            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_RECEIVE) for %p with length %lu\n", __FILE__, __LINE__, wsi, len);
+            printf("%s\n", (char*) in);
             ++recvCounter;
             break;
 
@@ -90,7 +90,6 @@ int main(int argc, char **argv) {
 
     // specify protocols
     struct lws_protocols protocols[] = {
-            { "http", lws_callback_http_dummy, 0, 0 },
             { "lws-minimal-proxy", callback_minimal, sizeof(struct per_session_data), 128, 0, NULL, 0 },
             { NULL, NULL, 0, 0 } /* terminator */
     };
