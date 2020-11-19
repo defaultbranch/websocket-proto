@@ -7,6 +7,8 @@ project(SERVER_CLIENT_EXAMPLE)
 #
 
 set(LWS_WITH_SSL OFF CACHE INTERNAL "")
+set(LWS_WITH_LIBEV ON CACHE INTERNAL "")
+set(LWS_WITH_EVLIB_PLUGINS OFF CACHE INTERNAL "")
 add_subdirectory(libwebsockets)
 
 

@@ -27,6 +27,18 @@ static int callback_minimal(struct lws *wsi, enum lws_callback_reasons reason, v
 
     switch (reason) {
 
+        case LWS_CALLBACK_SERVER_NEW_CLIENT_INSTANTIATED:
+            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_SERVER_NEW_CLIENT_INSTANTIATED) not implemented for %p\n", __FILE__, __LINE__, wsi);
+            break;
+
+        case LWS_CALLBACK_WSI_CREATE:
+            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_WSI_CREATE) not implemented for %p\n", __FILE__, __LINE__, wsi);
+            break;
+
+        case LWS_CALLBACK_WSI_DESTROY:
+            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_WSI_DESTROY) not implemented for %p\n", __FILE__, __LINE__, wsi);
+            break;
+
         case LWS_CALLBACK_PROTOCOL_INIT:
             printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_PROTOCOL_INIT) not implemented for %p\n", __FILE__, __LINE__, wsi);
             break;
@@ -100,6 +112,7 @@ int main(int argc, char **argv) {
     info.port = 8080;  // server listens to http port
     info.protocols = protocols;
     info.foreign_loops = NULL;  // can point to sd_loop later
+    info.options |= LWS_SERVER_OPTION_LIBEV;
 
     // create context
     struct lws_context *context;
