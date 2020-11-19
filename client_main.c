@@ -68,6 +68,8 @@ connect_client(lws_sorted_usec_list_t *sul)
         }
 }
 
+static int sendCounter = 0;
+static int recvCounter = 0;
 static char* sendBuffer = NULL;
 
 static int callback_minimal(struct lws *wsi, enum lws_callback_reasons reason, void *user, void *in, size_t len) {
@@ -101,24 +103,26 @@ static int callback_minimal(struct lws *wsi, enum lws_callback_reasons reason, v
             break;
 
         case LWS_CALLBACK_CLIENT_WRITEABLE:
-            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_CLIENT_WRITEABLE) not implemented for %p\n", __FILE__, __LINE__, wsi);
-
-            char *msg = "Blabber de Blab\n";
-            size_t msgLen = strlen(msg) + 1;
+            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_CLIENT_WRITEABLE) sending for %p\n", __FILE__, __LINE__, wsi);
 
             // free previous send buffer
             free(sendBuffer);
 
             // create and fill new send buffer
-            sendBuffer = malloc(LWS_PRE + len);
-            strcpy(sendBuffer+LWS_PRE, msg);
+            pid_t pid = getpid();
+            char *template = "Client %d send %d recv %d\n";
+            size_t msgLen = snprintf(NULL, 0, template, pid, sendCounter, recvCounter) + 1;
+            sendBuffer = malloc(LWS_PRE + msgLen);
+            snprintf(sendBuffer+LWS_PRE, msgLen, template, pid, sendCounter, recvCounter);
 
             lws_write(wsi, ((unsigned char*)sendBuffer)+LWS_PRE, msgLen, LWS_WRITE_TEXT);
+            ++sendCounter;
             break;
 
         case LWS_CALLBACK_CLIENT_RECEIVE:
             printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_CLIENT_RECEIVE) for %p with length %d\n", __FILE__, __LINE__, wsi, len);
-            lwsl_hexdump_notice(in, len);
+            printf("%s\n", in);
+            ++recvCounter;
             break;
 
         case LWS_CALLBACK_CLIENT_RECEIVE_PONG:
