@@ -102,6 +102,15 @@ static int callback_minimal(struct lws *wsi, enum lws_callback_reasons reason, v
             printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_CLIENT_WRITEABLE) not implemented for %p\n", __FILE__, __LINE__, wsi);
             break;
 
+        case LWS_CALLBACK_CLIENT_RECEIVE:
+            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_CLIENT_RECEIVE) not implemented for %p\n", __FILE__, __LINE__, wsi);
+            lwsl_hexdump_notice(in, len);
+            break;
+
+        case LWS_CALLBACK_CLIENT_RECEIVE_PONG:
+            printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_CLIENT_RECEIVE_PONG) not implemented for %p\n", __FILE__, __LINE__, wsi);
+            break;
+
         case 2:
         case 3:
         default:

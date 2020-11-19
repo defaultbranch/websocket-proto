@@ -17,6 +17,8 @@ struct per_session_data {
 };
 
 
+static char* sendBuffer = NULL;
+
 static int callback_minimal(struct lws *wsi, enum lws_callback_reasons reason, void *user, void *in, size_t len) {
 
     struct per_session_data *session_data = (struct per_session_data*) user;
@@ -45,19 +47,22 @@ static int callback_minimal(struct lws *wsi, enum lws_callback_reasons reason, v
 
         case LWS_CALLBACK_SERVER_WRITEABLE:
             printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_SERVER_WRITEABLE) not implemented for %p\n", __FILE__, __LINE__, wsi);
+
+            char *msg = "Blubber di Blub\n";
+            size_t len = strlen(msg) + 1;
+
+            // free previous send buffer
+            free(sendBuffer);
+
+            // create and fill new send buffer
+            sendBuffer = malloc(LWS_PRE + len);
+            strcpy(sendBuffer+LWS_PRE, msg);
+
+            lws_write(wsi, ((unsigned char*)sendBuffer)+LWS_PRE, len, LWS_WRITE_TEXT);
             break;
 
         case LWS_CALLBACK_WS_SERVER_DROP_PROTOCOL:
             printf("%s(%d) callback_minimal(reason: LWS_CALLBACK_WS_SERVER_DROP_PROTOCOL) not implemented for %p\n", __FILE__, __LINE__, wsi);
-
-            char *msg = "Hello Client\n";
-            size_t len = strlen(msg) + 1;
-
-            // TODO memory management
-            char *buf = malloc(LWS_PRE + len);
-            strcpy(buf+LWS_PRE, msg);
-
-            lws_write(wsi, buf, len, LWS_WRITE_TEXT);
             break;
 
         case 0:
