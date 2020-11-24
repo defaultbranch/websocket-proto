@@ -157,6 +157,7 @@ int main(int argc, char **argv) {
     info.port = CONTEXT_PORT_NO_LISTEN;  // client does not listen
     info.protocols = protocols;
     info.foreign_loops = NULL;  // can point to sd_loop later
+    info.options |= LWS_SERVER_OPTION_SDEVENT;
 
     // create context
     context = lws_create_context(&info);

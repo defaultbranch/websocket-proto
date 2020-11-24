@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <signal.h>
 #include <string.h>
+#include <pthread.h>
 
 #include <libwebsockets.h>
 
@@ -96,6 +97,9 @@ static int callback_minimal(struct lws *wsi, enum lws_callback_reasons reason, v
 
 int main(int argc, char **argv) {
 
+    pthread_t pt_id = pthread_self();
+    printf("%s(%d) [%lu] %s starting\n", __FILE__, __LINE__, pt_id, __func__);
+
     // configure logging
     lws_set_log_level(LLL_USER | LLL_ERR | LLL_WARN | LLL_NOTICE, log_emit_function);
     lwsl_user("server started");
@@ -112,7 +116,7 @@ int main(int argc, char **argv) {
     info.port = 8080;  // server listens to http port
     info.protocols = protocols;
     info.foreign_loops = NULL;  // can point to sd_loop later
-    info.options |= LWS_SERVER_OPTION_LIBEV;
+    info.options |= LWS_SERVER_OPTION_SDEVENT;
 
     // create context
     struct lws_context *context;
